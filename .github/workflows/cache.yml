@@ -1,0 +1,25 @@
+name: Cache Example CI
+
+on:
+  push:
+    branches: [main]  # or your working branch
+  workflow_dispatch:  # allows you to trigger it manually
+
+jobs:
+  cache-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: prime-cache-72a366f
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip  # or node_modules, ~/.m2, etc., depending on your project
+          key: cache-72a366f
+
+      - name: Check cache status
+        run: echo "Cache result: ${{ steps.cache.outputs.cache-hit }}"
